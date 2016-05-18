@@ -1,0 +1,10 @@
+#define global variables, if any here
+
+class Vehicle(object):
+
+"""
+the mother of all vehicles
+
+"""
+
+    
