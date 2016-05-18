@@ -14,7 +14,7 @@ class SimpleCar(BaseCar):
 
 
     def updatePosition(self,time):
-        if (self._x>=self.ROADLENGTH):
+        if ((self._x+self._velocity*time)>=self.ROADLENGTH):
             self._x+=self._velocity*time
             self._x=self._x%self.ROADLENGTH
         else:
