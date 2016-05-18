@@ -36,7 +36,7 @@ class TrafficManager:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            car.updatePosition(1)        
+            car.updatePosition(0.5)        
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"
@@ -57,9 +57,10 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
+
     for step in range(500):
         trafficControl.updateCars()
-        #plotter.updatePlot()
+        plotter.updatePlot()
         logger.addEntries()
 
 
