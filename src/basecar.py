@@ -22,18 +22,24 @@ class BaseCar(object):
         self._previous = int()
         self._nextNeighbour = BaseCar()
         self._lane = int(1)
-        self._neighbourIndex=neighbourIndex
-
+        self._neighbourX=float()
+        self._neighbourV=float()
      
         
         
     def getPosition(self,car):
-        return self._nextNeighbour=car
+        return self._x
+    
+    def getVelocity(self,car):
+        return self._velocity
     
 
     def setNeighbour(self,nextNeighbour):
-        self._nextNeighbour
+        self._nextNeighbour=nextNeighbour
 
+    def saveNeighbourStatus(self):
+        self._neighbourX=self._nextNeighbour.getPosition()
+        self._neighbourV=self._nextNeighbour.getVelocity()
     
     def updatePosition(self):
         pass
