@@ -22,7 +22,7 @@ class SimpleCar(BaseCar):
                 self._x+=self._velocity*time
                 self._velocity+=self._acceleration*time
         if(1):
-            tempDist=self.neighbourX()-self._x
+            tempDist=self._neighbourX()-self._x
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist
             if (tempDist>self._brakeDistance):
