@@ -4,7 +4,7 @@ from basecar import BaseCar
 class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
     
-    def __init__(self,x=0,velocity=1,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
+    def __init__(self,x=0,velocity=1,brakeDistance=-1,acceleration=1,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
         self._x=x  
         self._velocity=velocity
         self._acceleration=acceleration
