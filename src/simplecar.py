@@ -4,26 +4,45 @@ from basecar import BaseCar
 class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
     
-    def __init__(self,x=0,velocity=1,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
+    def __init__(self,x=0,velocity=1,brakeDistance=-1,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
         self._x=x  
         self._velocity=velocity
         self._acceleration=acceleration
-        self._brakeDistance = brakeDistance
         self._maxSpeed=maxSpeed
-        self._driverMax=np.random.choice(range(self._maxSpeed/2,self._maxSpeed-10))
-        
-
+        self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
+        self._driverMood = 0.005*np.random.choice(range(40,120,5))        
+#        print self._driverMood
     def updatePosition(self,time):
-        if (self._x>=self.ROADLENGTH):
-            self._x=self._x%self.ROADLENGTH
-        self._x+=self._velocity*time
-        self._velocity+=self._acceleration*time
         if(0):
-            if ((self.neighbourX()-self._x)>self._brakeDistance):
+            if ((self._x+self._velocity*time)>=self.ROADLENGTH):
+                self._x+=self._velocity*time
+                self._x=self._x%self.ROADLENGTH
+            else:
+                self._x+=self._velocity*time
+                self._velocity+=self._acceleration*time
+        self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        
+        if(1):
+            tempDist=self._neighbourX-self._x
+            if (tempDist<0):
+                tempDist=self.ROADLENGTH+tempDist
+ #           print 'tempdist ',tempDist    
+  #          print 'brakedist ',self._brakeDistance    
+            if (tempDist>self._brakeDistance):
                 if((self._velocity+self._acceleration*time)<=self._driverMax):
                     self._velocity+=self._acceleration*time
-                    self._x+=self._velocity*time
-            else:    
-                self._velocity-=self._acceleration*time
+                isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 self._x+=self._velocity*time
-           
+                if isEndRoad:
+                    self._x=self._x%self.ROADLENGTH
+            else:
+                if (self._velocity-self._acceleration*time>=0):
+                    self._velocity-=self._acceleration*time
+                    self._x+=self._velocity*time
+                    isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
+                else:
+                    self._velocity=0
+                    isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
+                if isEndRoad:
+                    self._x=self._x%self.ROADLENGTH
+                    
+                

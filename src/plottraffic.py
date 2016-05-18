@@ -30,9 +30,6 @@ class Plotter:
         self._backgroundImage.setZValue(-100)  # make sure image is behind other data
         self._backgroundImage.setRect(pg.QtCore.QRectF(0, 0, self._roadLength, self._roadWidth))
         
-        
-
-        
     def updatePlot(self):
 
         # Lists for positions of cars
