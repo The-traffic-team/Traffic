@@ -15,8 +15,8 @@ class Plotter:
     def initPlot(self, trafficManager ):
         self._trafficManager = trafficManager
         self._roadLength = self._trafficManager.roadLength * 1e3
-        mng = plt.get_current_fig_manager()
-        mng.resize(*mng.window.maxsize())
+#        mng = plt.get_current_fig_manager()
+#        mng.resize(*mng.window.maxsize())
         
         
     def updatePlot(self):
