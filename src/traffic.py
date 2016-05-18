@@ -1,7 +1,7 @@
 import argparse
 from singleton import Singleton
-
-import plottraffic
+from plottraffic import Plotter
+from drawnow import drawnow
 from simplecar import SimpleCar
 
 @Singleton
@@ -9,7 +9,7 @@ class TrafficManager:
     """TrafficManager class is in charge of intializing and implementing the traffic simulation"""
     def __init__(self):
         print "TrafficManager(): initializing traffic simulation"    
-        self.cars = [SimpleCar(0), SimpleCar(20), SimpleCar(40), SimpleCar(80)]                 
+        self.cars = [SimpleCar(0), SimpleCar(x=2000,velocity=100), SimpleCar(x=4000,velocity=200), SimpleCar(x=8000,velocity=300)]                 
         self.roadLength = 50
         self.initCars()
 
@@ -35,11 +35,12 @@ if __name__ == '__main__':
 
      
     trafficControl = TrafficManager.instance()
-    plottraffic.initPlot(trafficControl)
+    plotter = Plotter.instance()
+    plotter.initPlot(trafficControl)
  
     for step in range(1000):
         trafficControl.updateCars()
-        plottraffic.updatePlot(trafficControl) 
+        plotter.updatePlot()
         print "   "
         print "car positions at step %d:" % step
         for car in trafficControl.cars:
