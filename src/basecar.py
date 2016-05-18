@@ -19,8 +19,8 @@ class BaseCar:
         self._maxDeceleration = maxDeceleration
         self._maxSpeed = maxSpeed
         self._brakeDistance = float(-1)
-        self._previous = NULL
-        self._nextNeighbour = NULL
+        self._previous = None
+        self._nextNeighbour = None
         self._lane = int(1)
         self._neighbourX=float()
         self._neighbourV=float()
