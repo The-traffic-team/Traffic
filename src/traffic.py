@@ -1,7 +1,6 @@
 import argparse
 from singleton import Singleton
 from plottraffic import Plotter
-from drawnow import drawnow
 from simplecar import SimpleCar
 
 @Singleton

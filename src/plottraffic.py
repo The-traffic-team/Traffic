@@ -2,7 +2,6 @@
 
 import matplotlib.pyplot as plt
 from scipy.misc import imread
-from drawnow import drawnow, figure
 from singleton import Singleton
 
 @Singleton
