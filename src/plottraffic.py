@@ -1,37 +1,45 @@
-
 # coding: utf-8
-
-# In[11]:
 
 import matplotlib.pyplot as plt
 from scipy.misc import imread
-import numpy as np
-#from drawnow import drawnow
+from singleton import Singleton
 
-#x = [1e4,2e4,3e4]
-#y = np.ones(3)
-#y *= 1500
-#markercolor = ['r','g','b']
+@Singleton
+class Plotter:
+    def __init__(self):
+        self._backgroundImage = "../roadlanes.png"
+        self._roadLength = 5e4
+        self._roadWidth = 1e4
+        self._trafficManager = None
+        
+    def initPlot(self, trafficManager ):
+        self._trafficManager = trafficManager
+        self._roadLength = self._trafficManager.roadLength * 1e3
+        mng = plt.get_current_fig_manager()
+        mng.resize(*mng.window.maxsize())
+        
+        
+    def updatePlot(self):
 
-def initPlot( trafficManager ):
-    fig = plt.figure()
-    img = imread("../roadlanes.png")
-    plt.imshow(img, zorder=0, extent=[0.0, trafficManager.roadLength*1e3, 0, 1e4])   
-    
+        img = imread("../roadlanes.png")
+        plt.imshow(img, zorder=0, extent=[0.0, self._roadLength, 0, self._roadWidth])   
+        # Lists for positions of cars
+        x=[]
+        y=[]
+        for car in self._trafficManager.cars:
+            x.append(car.getPosition())
+            y.append(1500)
+            # marker size s in pixels
+        plt.scatter(x,y,zorder=1,s=500)
+        plt.show(False)
+        plt.draw()
+        plt.gcf().clear()
+        #plt.pause(0.005)
 
-def updatePlot( trafficManager ):
-    x=[]
-    y=[]
-    for car in trafficManager.cars:
-        x.append(car.getPosition())
-        y.append(1500)
-
-    # marker size s in pixels
-    plt.scatter(x,y,zorder=1,s=500) 
-    plt.show()
-    plt.pause(0.0001)
-
-
+            
+    def updatePlotnew(self):
+        pass
+        #drawnow(self.internalUpdatePlot)
 
 
 
