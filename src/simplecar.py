@@ -14,29 +14,29 @@ class SimpleCar(BaseCar):
 
 
     def updatePosition(self,time):
-        if ((self._x+self._velocity*time)>=self.ROADLENGTH):
-            self._x+=self._velocity*time
-            self._x=self._x%self.ROADLENGTH
-        else:
-            self._x+=self._velocity*time
-        
-        self._velocity+=self._acceleration*time
         if(0):
+            if ((self._x+self._velocity*time)>=self.ROADLENGTH):
+                self._x+=self._velocity*time
+                self._x=self._x%self.ROADLENGTH
+            else:
+                self._x+=self._velocity*time
+                self._velocity+=self._acceleration*time
+        if(1):
             tempDist=self.neighbourX()-self._x
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist
             if (tempDist>self._brakeDistance):
                 if((self._velocity+self._acceleration*time)<=self._driverMax):
                     self._velocity+=self._acceleration*time
-                    isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
-                    self._x+=self._velocity*time
-                    if isEndRoad:
-                        self._x=self._x%self.ROADLENGTH
+                isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
+                self._x+=self._velocity*time
+                if isEndRoad:
+                    self._x=self._x%self.ROADLENGTH
             else:
                 self._velocity-=self._acceleration*time
                 self._x+=self._velocity*time
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
-
+                    
                 
