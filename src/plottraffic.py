@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import matplotlib.pyplot as plt
+from matplotlib import get_backend
 from scipy.misc import imread
 from singleton import Singleton
 
@@ -19,9 +20,10 @@ class Plotter:
         self._roadWidth = self._roadLength  * 663./1657
 	self._laneWidth = self._roadWidth / 4.
 	plt.figure(1)
-	plt.switch_backend('TkAgg')
-        mng = plt.get_current_fig_manager()
-        mng.resize(*mng.window.maxsize())
+	print "Matplotlib Backend ", get_backend()
+	if(get_backend() == 'TkAgg'):
+	        mng = plt.get_current_fig_manager()
+        	mng.resize(*mng.window.maxsize())
         
         
     def updatePlot(self):
