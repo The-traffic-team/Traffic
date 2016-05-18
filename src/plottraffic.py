@@ -18,8 +18,10 @@ class Plotter:
         self._roadLength = self._trafficManager.roadLength
         self._roadWidth = self._roadLength  * 663./1657
 	self._laneWidth = self._roadWidth / 4.
-        #mng = plt.get_current_fig_manager()
-        #mng.resize(*mng.window.maxsize())
+	plt.figure(1)
+	plt.switch_backend('TkAgg')
+        mng = plt.get_current_fig_manager()
+        mng.resize(*mng.window.maxsize())
         
         
     def updatePlot(self):
