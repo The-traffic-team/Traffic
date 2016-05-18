@@ -1,6 +1,8 @@
 import argparse
+
 from singleton import Singleton
 from plottraffic import Plotter
+import basecar
 from simplecar import SimpleCar
 
 @Singleton
@@ -13,16 +15,16 @@ class TrafficManager:
     def initialize(self,roadLength, positions, velocities):    
         print "TrafficManager(): initializing traffic simulation"    
         self.roadLength = roadLength
-        baseCar.BaseCar.ROADLENGTH = self.roadlength
+        basecar.BaseCar.ROADLENGTH = self.roadLength
         carTuples = []
         for i in range(len(positions)):         
-            carTuples.append(positions[i], velocities[i])  
+            carTuples.append((positions[i], velocities[i]))  
         self.initCars(carTuples)
 
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
-            self.cars.append(simpleCar(attributes[0], v=attributes[1]))
+            self.cars.append(SimpleCar(attribute[0], velocity = attribute[1]))
         for i in range(len(self.cars) - 1):
             self.cars[i].setNeighbour(self.cars[i+1])
         self.cars[-1].setNeighbour(self.cars[0])
@@ -47,7 +49,7 @@ if __name__ == '__main__':
     velocities = [30 , 30, 30, 30]
      
     trafficControl = TrafficManager.instance()
-    trafficControl.initialize(
+    trafficControl.initialize(roadLength, positions, velocities)
     plotter = Plotter.instance()
     plotter.initPlot(trafficControl)
  
