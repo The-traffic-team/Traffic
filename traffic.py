@@ -3,16 +3,22 @@
 
 # In[ ]:
 
-class basecar:
+# Format guide
+# Use camelcase for functions, classes and variables
+# Start Class names with Uppercase
+# Start functions and variables with lowercase
+# Member variables have a single underscore in front
+
+class Basecar:
     """ Base class for cars"""
     def __init__(self,x,acceleration,deceleration,maxspeed,distance):
-        self.x = x
-        self.acceleration = acceleration
-        self.deceleration = deceleration
-        self.maxspeed = maxspeed
-        self.distance = distance
-        self.previous = int()
-        self.next = int()
+        self._x = x
+        self._acceleration = acceleration
+        self._deceleration = deceleration
+        self._maxspeed = maxspeed
+        self._distance = distance
+        self._previous = int()
+        self._next = int()
         
 
         
