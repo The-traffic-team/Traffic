@@ -7,12 +7,22 @@ from simplecar import SimpleCar
 class TrafficManager:
     """TrafficManager class is in charge of intializing and implementing the traffic simulation"""
     def __init__(self):
-        print "TrafficManager(): initializing traffic simulation"    
-        self.cars = [SimpleCar(0), SimpleCar(x=2000,velocity=100), SimpleCar(x=4000,velocity=200), SimpleCar(x=8000,velocity=300)]                 
-        self.roadLength = 50
-        self.initCars()
+        self.cars = []        
+        self.roadLength = 0        
 
-    def initCars(self):
+    def initialize(self,roadLength, positions, velocities):    
+        print "TrafficManager(): initializing traffic simulation"    
+        self.roadLength = roadLength
+        baseCar.BaseCar.ROADLENGTH = self.roadlength
+        carTuples = []
+        for i in range(len(positions)):         
+            carTuples.append(positions[i], velocities[i])  
+        self.initCars(carTuples)
+
+    def initCars(self, attributes):       
+        attributes.sort()
+        for attribute in attributes:
+            self.cars.append(simpleCar(attributes[0], v=attributes[1]))
         for i in range(len(self.cars) - 1):
             self.cars[i].setNeighbour(self.cars[i+1])
         self.cars[-1].setNeighbour(self.cars[0])
@@ -32,8 +42,12 @@ class TrafficManager:
 
 if __name__ == '__main__':
 
+    roadLength = 1000
+    positions = [0, 100, 200, 600] 
+    velocities = [30 , 30, 30, 30]
      
     trafficControl = TrafficManager.instance()
+    trafficControl.initialize(
     plotter = Plotter.instance()
     plotter.initPlot(trafficControl)
  
