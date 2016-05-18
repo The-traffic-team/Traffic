@@ -33,6 +33,9 @@ class BaseCar:
     def setVelocity(self,newvelocity):
         self._velocity=newvelocity
 
+    def setAcceleration(self,newacc):
+        self._acceleration=newacc
+
     def setDelay(self,delay):
         self._delay=delay
         
@@ -41,6 +44,9 @@ class BaseCar:
     
     def getVelocity(self):
         return self._velocity
+
+    def getAcceleration(self):
+        return self._acceleration
     
 
     def setNeighbour(self,nextNeighbour):
