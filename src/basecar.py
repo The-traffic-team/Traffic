@@ -27,10 +27,10 @@ class BaseCar:
      
         
         
-    def getPosition(self,car):
+    def getPosition(self):
         return self._x
     
-    def getVelocity(self,car):
+    def getVelocity(self):
         return self._velocity
     
 
