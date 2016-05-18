@@ -19,6 +19,7 @@ class Plotter:
         self._roadLength = self._trafficManager.roadLength
         self._roadWidth = self._roadLength  * 663./1657
 	self._laneWidth = self._roadWidth / 4.
+	plt.switch_backend('TkAgg')
 	plt.figure(1)
 	print "Matplotlib Backend ", get_backend()
 	if(get_backend() == 'TkAgg'):
