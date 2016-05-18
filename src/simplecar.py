@@ -10,7 +10,7 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/2,self._maxSpeed-10))
-        self._brakeDistance = np.random.choice(range(0.8,1.2,0.05))*self._driverMax*self._driverMax/(2* self._acceleration)
+        self._brakeDistance = 0.01*np.random.choice(range(40,120,5))*self._driverMax*self._driverMax/(2* self._acceleration)
 
 
     def updatePosition(self,time):
