@@ -1,4 +1,4 @@
-import basecar
+from basecar import BaseCar
 
 class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
