@@ -57,9 +57,9 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(100):
+    for step in range(500):
         trafficControl.updateCars()
-        plotter.updatePlot()
+        #plotter.updatePlot()
         logger.addEntries()
 
 
@@ -67,6 +67,8 @@ if __name__ == '__main__':
 
     trafficControl.finalize()
         
-print logger.getResult(1)
-print
-print logger.getResult(2)
+    print logger.getResult(1)
+    print
+    print logger.getResult(2)
+    logger.showSummaryPlots()
+
