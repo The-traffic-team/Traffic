@@ -6,7 +6,7 @@
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 import numpy as np
-from drawnow import drawnow
+#from drawnow import drawnow
 
 #x = [1e4,2e4,3e4]
 #y = np.ones(3)
