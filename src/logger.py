@@ -31,9 +31,12 @@ class Logger:
     def getResult(self, numberInList):
         """ Returns result for each car object using the number of the car in the list"""
         return self._loggerlist[numberInList-1]
+        
     
-
-
+    def showSummaryPlots(self):
+        """plots summary of current statistics"""
+        self._loggerlist[0]
+                    
 
 
 
