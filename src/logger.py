@@ -4,6 +4,7 @@
 # In[5]:
 
 import pandas as pd
+import matplotlib.pyplot as plt
 from singleton import Singleton
 
 
@@ -35,9 +36,16 @@ class Logger:
     
     def showSummaryPlots(self):
         """plots summary of current statistics"""
-        self._loggerlist[0]
-                    
-
+        variables = self._loggerlist[0].columns.values
+        nCars = len(self._trafficManager.cars);
+        fig, axes = plt.subplots(nrows = len(variables))
+        for car in xrange(0,nCars):
+            pltNumber = 0
+            for variable in variables:       
+                self._loggerlist[car][variable].plot(ax=axes[pltNumber])
+                pltNumber += 1
+        plt.show()     
+        
 
 
 
