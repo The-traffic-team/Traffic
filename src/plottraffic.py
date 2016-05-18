@@ -9,14 +9,17 @@ class Plotter:
     def __init__(self):
         self._backgroundImage = "../roadlanes.png"
         self._roadLength = 5e4
-        self._roadWidth = 1e4
+        self._roadWidth = self._roadLength  * 663./1657
+	self._laneWidth = self._roadWidth / 4.
         self._trafficManager = None
         
     def initPlot(self, trafficManager ):
         self._trafficManager = trafficManager
-        self._roadLength = self._trafficManager.roadLength * 1e3
-#        mng = plt.get_current_fig_manager()
-#        mng.resize(*mng.window.maxsize())
+        self._roadLength = self._trafficManager.roadLength
+        self._roadWidth = self._roadLength  * 663./1657
+	self._laneWidth = self._roadWidth / 4.
+        mng = plt.get_current_fig_manager()
+        mng.resize(*mng.window.maxsize())
         
         
     def updatePlot(self):
@@ -28,7 +31,7 @@ class Plotter:
         y=[]
         for car in self._trafficManager.cars:
             x.append(car.getPosition())
-            y.append(1500)
+            y.append(self._laneWidth - (self._laneWidth/2.))
             # marker size s in pixels
         plt.scatter(x,y,zorder=1,s=500)
         plt.show(False)

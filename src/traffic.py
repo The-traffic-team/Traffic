@@ -3,7 +3,9 @@ import argparse
 from singleton import Singleton
 from plottraffic import Plotter
 import basecar
+from logger import Logger
 from simplecar import SimpleCar
+
 
 @Singleton
 class TrafficManager:
@@ -52,10 +54,13 @@ if __name__ == '__main__':
     trafficControl.initialize(roadLength, positions, velocities)
     plotter = Plotter.instance()
     plotter.initPlot(trafficControl)
- 
-    for step in range(1000):
+    logger = Logger.instance()
+    logger.init(trafficControl)
+    
+    for step in range(100):
         trafficControl.updateCars()
         plotter.updatePlot()
+        logger.addEntries()
         print "   "
         print "car positions at step %d:" % step
         for car in trafficControl.cars:
@@ -64,3 +69,6 @@ if __name__ == '__main__':
 
     trafficControl.finalize()
         
+print logger.getResult(1)
+print
+print logger.getResult(2)
