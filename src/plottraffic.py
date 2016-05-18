@@ -25,7 +25,7 @@ class Plotter:
 	if(get_backend() == 'TkAgg'):
 	        mng = plt.get_current_fig_manager()
         	mng.resize(*mng.window.maxsize())
-        
+             
         
     def updatePlot(self):
 
@@ -41,8 +41,9 @@ class Plotter:
         plt.scatter(x,y,zorder=1,s=500)
         plt.show(False)
         plt.draw()
+        plt.pause(1e-60)
         plt.gcf().clear()
-        #plt.pause(0.005)
+        
 
             
     def updatePlotnew(self):

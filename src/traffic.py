@@ -47,8 +47,8 @@ class TrafficManager:
 if __name__ == '__main__':
 
     roadLength = 1000
-    positions = [0, 100, 200, 600] 
-    velocities = [30 , 30, 30, 30]
+    positions = [0, 200, 800, 600] 
+    velocities = [30 , 60, 30, 30]
      
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities)
@@ -61,10 +61,8 @@ if __name__ == '__main__':
         trafficControl.updateCars()
         plotter.updatePlot()
         logger.addEntries()
-        print "   "
-        print "car positions at step %d:" % step
-        for car in trafficControl.cars:
-            print car.getPosition()
+
+
        
 
     trafficControl.finalize()
