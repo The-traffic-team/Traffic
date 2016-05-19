@@ -80,9 +80,9 @@ class TrafficManager:
 if __name__ == '__main__':
 
     roadLength = 5000
-    positions =  [0  , 200 , 400, 600, 800, 1000, 1200, 1400, 1600, 2000] 
-    velocities = [10 , 10  , 30 , 10 , 10 , 40  ,   10,   10,   20,   10]
-    typeOfCar  = ['s', 'b' ,'s' ,'b' ,'s' ,'b'  ,'b'  , 's' ,'b'  , 's' ]
+    positions =  [0  , 100 , 200 , 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 2000] 
+    velocities = [10 , 50  , 10  , 35 , 30 , 25 , 10 , 15 , 30 , 45 , 40  , 25  ,  10 ,  20 , 10  , 30  ,  20 ,  35 ,   10]
+    typeOfCar  = ['s', 'b' , 'b' , 'b','s' , 'b','b' , 's','s' , 'b', 'b' , 'b' , 'b' , 'b' , 's' , 'b' , 'b' , 'b' , 's' ]
      
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities, typeOfCar)
