@@ -29,7 +29,7 @@ class BaseCar:
         self._nextNeighbour = [[] for i in xrange(self._lanes)]
         self._neighbourX=float()
         self._neighbourV=float()
-
+        self._delay=0
     def setPosition(self,newpos):
         self._x=newpos
     
