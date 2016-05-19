@@ -80,7 +80,7 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(500):
+    for step in range(50):
 
         trafficControl.updateCars()
         plotter.updatePlot()
