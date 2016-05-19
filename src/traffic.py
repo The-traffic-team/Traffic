@@ -1,6 +1,7 @@
 import argparse
 
 from singleton import Singleton
+from pyqtgraph.Qt import QtGui, QtCore
 from plottraffic import Plotter
 import basecar
 from logger import Logger
@@ -36,7 +37,7 @@ class TrafficManager:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            car.updatePosition(0.5)        
+            car.updatePosition(0.1)        
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"
@@ -57,14 +58,16 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
+    for step in range(5000):
 
-    for step in range(500):
         trafficControl.updateCars()
         plotter.updatePlot()
         logger.addEntries()
 
 
        
+
+
 
     trafficControl.finalize()
         
