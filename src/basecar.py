@@ -54,6 +54,9 @@ class BaseCar:
     def getLane(self):
 	return self._lane    
 
+    def getNextNeighbour(self):
+	return self._nextNeighbour[self._lane -1]
+
     def setNeighbour(self, nextNeighbour, lane = 1):
         self._nextNeighbour[self._lane - 1]=nextNeighbour
 

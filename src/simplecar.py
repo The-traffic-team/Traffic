@@ -23,13 +23,13 @@ class SimpleCar(BaseCar):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
             if(1):    
                 if (tempDist<60):
-                    tempVel=self._nextNeighbour.getVelocity()
-                    self._nextNeighbour.setVelocity(self._velocity)
-                    self._nextNeighbour.setPosition(self._nextNeighbour.getVelocity()+60)
+                    tempVel=self.getNextNeighbour().getVelocity()
+                    self.getNextNeighbour().setVelocity(self._velocity)
+                    self.getNextNeighbour().setPosition(self.getNextNeighbour().getVelocity()+60)
                     self._velocity=tempVel
                     self._x=self._x-60
                     self._delay=3
-                    self._nextNeighbour.setDelay(3)
+                    self.getNextNeighbour().setDelay(3)
             if self._delay>0:
                 self._delay-=1
             elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
