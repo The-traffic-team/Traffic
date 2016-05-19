@@ -14,6 +14,7 @@ class TrafficManager:
     def __init__(self):
         self.cars = []        
         self.roadLength = 0        
+	self._lanes = 4
 
     def initialize(self,roadLength, positions, velocities):    
         print "TrafficManager(): initializing traffic simulation"    
@@ -24,13 +25,34 @@ class TrafficManager:
             carTuples.append((positions[i], velocities[i]))  
         self.initCars(carTuples)
 
+    def sortCars(self):
+	lanelist = [[] for i in xrange(self._lanes)]
+        for i in xrange(len(self.cars)):
+		# Lanes start from 1 but list from 0
+		lanelist[self.cars[i].getLane() - 1].append(self.cars[i])
+	print lanelist
+	# set Neighbours , use car number and remember that it starts with 1
+	for laneNumber in xrange(1, 2): #xrange(1, self._lanes + 1):
+		# Get list for each lane
+		lane = lanelist[laneNumber -1]
+		if(len(lane) > 0):
+		# Sort lanes
+			lane.sort(cmp = lambda x, y: cmp(x.getPosition(), y.getPosition()))
+			print lane
+			# Find next car for each lane
+		        for carNumber in xrange(1, len(lane) + 1):
+				if(carNumber  < len(self.cars)):
+					nextNeighbourCar = lane[carNumber]
+				else:
+					nextNeighbourCar = lane[0]
+				lane[carNumber -1].setNeighbour(nextNeighbourCar, laneNumber)
+
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
             self.cars.append(SimpleCar(attribute[0], velocity = attribute[1]))
-        for i in range(len(self.cars) - 1):
-            self.cars[i].setNeighbour(self.cars[i+1])
-        self.cars[-1].setNeighbour(self.cars[0])
+        self.sortCars()
+
     
     def updateCars(self):
         for car in self.cars:
@@ -48,8 +70,8 @@ class TrafficManager:
 if __name__ == '__main__':
 
     roadLength = 5000
-    positions = [0, 200, 800, 600,650] 
-    velocities = [30,80,10,50,20]
+    positions = [800, 600, 0, 200,650] 
+    velocities = [30,40,10,50,40]
      
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities)
