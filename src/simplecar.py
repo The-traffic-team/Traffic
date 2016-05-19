@@ -20,8 +20,8 @@ class SimpleCar(BaseCar):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
-            if(0):    
-                if (tempDist<6):
+            if(1):    
+                if (tempDist<60):
                     tempVel=self._nextNeighbour.getVelocity()
                     self._nextNeighbour.setVelocity(self._velocity)
                     self._nextNeighbour.setPosition(self._nextNeighbour.getVelocity()+60)
