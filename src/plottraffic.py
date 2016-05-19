@@ -3,27 +3,23 @@
 import pyqtgraph as pg
 from singleton import Singleton
 from PyQt4.QtGui import QImage
-import cv
+from PIL import Image
 import numpy as np
 
 
 @Singleton
 class Plotter:
     def __init__(self):
-        self._backgroundImage = "../roadlanes2.png"
+        self._backgroundImage = "../roadlanes.png"
         self._roadLength = 5e4
         self._roadWidth = self._roadLength  * 663./1657
 	self._laneWidth = self._roadWidth / 4.
         self._trafficManager = None
         self._pw = pg.plot(pen='y', symbol='t', symbolSize=200)
-        rawImage = QImage("../roadlanes.png")
-        rawImage = rawImage.convertToFormat(QImage.Format_ARGB32_Premultiplied)
-        imgArray = pg.imageToArray(rawImage, copy=True)
+	x = Image.open('../roadlanes.png')
+	im = np.array(x)
 
-	x = cv.LoadImageM('../roadlanes2.png')
-	im = np.asarray(x)
-
-        self._backgroundImage = pg.ImageItem(im)
+        self._backgroundImage = pg.ImageItem(im, autoDownsample = True, autoLevels = False)
 
 
 
