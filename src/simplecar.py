@@ -10,7 +10,7 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.01*np.random.choice(range(40,120,5))        
+        self._driverMood = 0.005*np.random.choice(range(40,120,5))        
         self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
         self._delay=0
 #        print self._driverMood
@@ -24,7 +24,7 @@ class SimpleCar(BaseCar):
                 if (tempDist<60):
                     tempVel=self._nextNeighbour.getVelocity()
                     self._nextNeighbour.setVelocity(self._velocity)
-                    self._nextNeighbour.setPosition(self._nextNeighbour.getVelocity()+60)
+                    self._nextNeighbour.setPosition(self._nextNeighbour.getPosition()+60)
                     self._velocity=tempVel
                     self._x=self._x-60
                     self._delay=3
