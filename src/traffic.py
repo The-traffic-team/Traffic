@@ -59,7 +59,7 @@ class TrafficManager:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            car.updatePosition(0.1)        
+            car.updatePosition(0.1,True)        
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"
@@ -70,8 +70,8 @@ class TrafficManager:
 if __name__ == '__main__':
 
     roadLength = 5000
-    positions = [800, 600, 0, 200,650] 
-    velocities = [30,40,10,50,40]
+    positions = [0,100, 200, 300, 400, 500, 600, 700, 800, 900] 
+    velocities = [10,10,10,10,10,10,10,10,10,10]
      
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities)
