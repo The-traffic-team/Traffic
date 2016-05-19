@@ -7,6 +7,7 @@ import basecar
 from logger import Logger
 from simplecar import SimpleCar
 from fastercar import FasterCar
+from bettercar import BetterCar
 
 @Singleton
 class TrafficManager:
@@ -50,7 +51,7 @@ class TrafficManager:
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
-            self.cars.append(FasterCar(attribute[0], velocity = attribute[1]))
+            self.cars.append(BetterCar(attribute[0], velocity = attribute[1]))
         self.sortCars()
 
     
@@ -80,7 +81,7 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(50):
+    for step in range(500):
 
         trafficControl.updateCars()
         plotter.updatePlot()
