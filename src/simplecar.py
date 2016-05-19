@@ -10,7 +10,8 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.005*np.random.choice(range(40,120,5))        
+        self._driverMood = 0.001*np.random.choice(range(40,120,5))        
+        self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
 #        print self._driverMood
     def updatePosition(self,time):
         if(0):
