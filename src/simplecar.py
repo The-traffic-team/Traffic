@@ -10,8 +10,9 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.001*np.random.choice(range(40,120,5))        
+        self._driverMood = 0.01*np.random.choice(range(40,120,5))        
         self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
+        self._delay=0
 #        print self._driverMood
     def updatePosition(self,time):
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
@@ -19,7 +20,18 @@ class SimpleCar(BaseCar):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
-            if (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
+            if(0):    
+                if (tempDist<6):
+                    tempVel=self._nextNeighbour.getVelocity()
+                    self._nextNeighbour.setVelocity(self._velocity)
+                    self._nextNeighbour.setPosition(self._nextNeighbour.getVelocity()+60)
+                    self._velocity=tempVel
+                    self._x=self._x-60
+                    self._delay=3
+                    self._nextNeighbour.setDelay(3)
+            if self._delay>0:
+                self._delay-=1
+            elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
                 if((self._velocity+self._acceleration*time)<=self._driverMax):
                     self._velocity+=self._acceleration*time
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
