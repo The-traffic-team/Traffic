@@ -4,8 +4,8 @@ from basecar import BaseCar
 class BetterCar(BaseCar):
     """ A  car class, having lane chaning, inherits from BaseCar"""
     
-    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200,collide=True): 
-	BaseCar.__init__(self)
+    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200,collide=True, trafficManager = None): 
+	BaseCar.__init__(self, trafficManager = trafficManager)
         self._x=x  
         self._velocity=velocity
         self._acceleration=acceleration
@@ -19,6 +19,7 @@ class BetterCar(BaseCar):
 
         
     def updatePosition(self,time):
+        
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
         if(self.getNextNeighbour()):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
@@ -36,13 +37,14 @@ class BetterCar(BaseCar):
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
             else:                                      #deccelerate if within brake distance
-                if (self._velocity-self._acceleration*time>=0):
-                    self._velocity-=self._acceleration*time
-                    self._x+=self._velocity*time
-                    isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
-                else:                                   #safeguard negative velocities
-                    self._velocity=0
-                    isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
+                if not self.changeLane():
+                    if (self._velocity-self._acceleration*time>=0):
+                        self._velocity-=self._acceleration*time
+                        self._x+=self._velocity*time
+                        
+                    else:                                   #safeguard negative velocities
+                        self._velocity=0
+                isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
         else:
@@ -62,3 +64,12 @@ class BetterCar(BaseCar):
             self._x=self._x-10
             self._delay=10
             self.getNextNeighbour().setDelay(3)
+
+    def changeLane(self):
+        return False
+        if (self._lane < self._trafficManager._lanes):
+            lane = self._trafficManager.getLanes()
+            
+            
+        else:
+            return False

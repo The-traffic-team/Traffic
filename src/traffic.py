@@ -26,32 +26,34 @@ class TrafficManager:
             carTuples.append((positions[i], velocities[i]))  
         self.initCars(carTuples)
 
-    def sortCars(self):
-	lanelist = [[] for i in xrange(self._lanes)]
-        for i in xrange(len(self.cars)):
-		# Lanes start from 1 but list from 0
-		lanelist[self.cars[i].getLane() - 1].append(self.cars[i])
-	print lanelist
-	# set Neighbours , use car number and remember that it starts with 1
+    def sortCars(self):         
+	lanes = self.getLanes()
 	for laneNumber in xrange(1, self._lanes + 1):
-		# Get list for each lane
-		lane = lanelist[laneNumber -1]
-		if(len(lane) > 1):
-		# Sort lanes
-			lane.sort(cmp = lambda x, y: cmp(x.getPosition(), y.getPosition()))
-			print lane
-			# Find next car for each lane
-		        for carNumber in xrange(1, len(lane) + 1):
-				if(carNumber  < len(lane)):
-					nextNeighbourCar = lane[carNumber]
-				else:
-					nextNeighbourCar = lane[0]
-				lane[carNumber -1].setNeighbour(nextNeighbourCar, laneNumber)
-
+	    # Get list for each lane
+            lane = lanes[laneNumber -1]
+	    if(len(lane) > 1):
+                # Sort lanes
+	        lane.sort(cmp = lambda x, y: cmp(x.getPosition(), y.getPosition()))
+		# Find next car for each lane
+		for carNumber in xrange(1, len(lane) + 1):
+		    if(carNumber  < len(lane)):
+			nextNeighbourCar = lane[carNumber]
+		    else:
+			nextNeighbourCar = lane[0]
+		    lane[carNumber -1].setNeighbour(nextNeighbourCar, laneNumber)                                
+                                
+    def getLanes(self):
+        lanelist = [[] for i in xrange(self._lanes)]
+        for i in xrange(len(self.cars)):
+	    # Lanes start from 1 but list from 0
+	    lanelist[self.cars[i].getLane() - 1].append(self.cars[i])
+        return lanelist
+                        
+                                        
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
-            self.cars.append(BetterCar(attribute[0], velocity = attribute[1]))
+            self.cars.append(BetterCar(attribute[0], velocity = attribute[1], trafficManager=self))
         self.sortCars()
 
     
@@ -81,7 +83,7 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(500):
+    for step in range(5000):
 
         trafficControl.updateCars()
         plotter.updatePlot()

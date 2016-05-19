@@ -13,7 +13,7 @@ class BaseCar:
     """ Base class for cars"""
     ROADLENGTH=200
 
-    def __init__(self,x=0,velocity=0,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=0, lane = int(1), lanes = int(4),collide=False):
+    def __init__(self,x=0,velocity=0,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=0, lane = int(1), lanes = int(4),collide=False, trafficManager = None):
         self._x = x
         self._velocity=velocity
         self._acceleration=maxAcceleration
@@ -31,6 +31,9 @@ class BaseCar:
         self._neighbourV=float()
         self._delay=0
         self._collide=collide
+	self._trafficManager = trafficManager
+
+
     def setPosition(self,newpos):
         self._x=newpos
     
@@ -66,7 +69,6 @@ class BaseCar:
 
     def saveNeighbourStatus(self):
 	if self._nextNeighbour[self._lane -1]:
-		print self._nextNeighbour[self._lane -1]
 	        self._neighbourX=self._nextNeighbour[self._lane - 1].getPosition()
         	self._neighbourV=self._nextNeighbour[self._lane - 1].getVelocity()
 	else:
