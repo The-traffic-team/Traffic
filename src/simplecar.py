@@ -4,7 +4,7 @@ from basecar import BaseCar
 class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
     
-    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
+    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200,collide=True): 
 	BaseCar.__init__(self)
         self._x=x  
         self._velocity=velocity
@@ -14,14 +14,15 @@ class SimpleCar(BaseCar):
         self._driverMood = 0.01*np.random.choice(range(40,120,5))        
         self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
         self._delay=0
+        self._collide=collide
 #        print self._driverMood
-    def updatePosition(self,time,collide=False):
+    def updatePosition(self,time):
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
         if(1):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
-            if(collide):
+            if(self._collide):
                 self.collision(tempDist,time)
             if self._delay>0:
                 self._delay-=1
