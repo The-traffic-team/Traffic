@@ -6,7 +6,7 @@ from plottraffic import Plotter
 import basecar
 from logger import Logger
 from simplecar import SimpleCar
-
+from fastercar import FasterCar
 
 @Singleton
 class TrafficManager:
@@ -32,16 +32,16 @@ class TrafficManager:
 		lanelist[self.cars[i].getLane() - 1].append(self.cars[i])
 	print lanelist
 	# set Neighbours , use car number and remember that it starts with 1
-	for laneNumber in xrange(1, 2): #xrange(1, self._lanes + 1):
+	for laneNumber in xrange (1, 2): #in xrange(1, self._lanes + 1):
 		# Get list for each lane
 		lane = lanelist[laneNumber -1]
-		if(len(lane) > 0):
+		if(len(lane) > 1):
 		# Sort lanes
 			lane.sort(cmp = lambda x, y: cmp(x.getPosition(), y.getPosition()))
 			print lane
 			# Find next car for each lane
 		        for carNumber in xrange(1, len(lane) + 1):
-				if(carNumber  < len(self.cars)):
+				if(carNumber  < len(lane)):
 					nextNeighbourCar = lane[carNumber]
 				else:
 					nextNeighbourCar = lane[0]
@@ -50,7 +50,7 @@ class TrafficManager:
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
-            self.cars.append(SimpleCar(attribute[0], velocity = attribute[1]))
+            self.cars.append(FasterCar(attribute[0], velocity = attribute[1]))
         self.sortCars()
 
     
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(5000):
+    for step in range(500):
 
         trafficControl.updateCars()
         plotter.updatePlot()
