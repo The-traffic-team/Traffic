@@ -33,7 +33,7 @@ class TrafficManager:
 		lanelist[self.cars[i].getLane() - 1].append(self.cars[i])
 	print lanelist
 	# set Neighbours , use car number and remember that it starts with 1
-	for laneNumber in xrange (1, 2): #in xrange(1, self._lanes + 1):
+	for laneNumber in xrange(1, self._lanes + 1):
 		# Get list for each lane
 		lane = lanelist[laneNumber -1]
 		if(len(lane) > 1):
