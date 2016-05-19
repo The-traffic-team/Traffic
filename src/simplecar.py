@@ -11,7 +11,7 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.005*np.random.choice(range(40,120,5))        
+        self._driverMood = 0.01*np.random.choice(range(40,120,5))        
         self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
         self._delay=0
 #        print self._driverMood
@@ -23,13 +23,13 @@ class SimpleCar(BaseCar):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
             if(1):    
                 if (tempDist<60):
-                    tempVel=self.getNextNeighbour().getVelocity()
+                    tempVel=self._neighbourV
                     self.getNextNeighbour().setVelocity(self._velocity)
-                    self.getNextNeighbour().setPosition(self.getNextNeighbour().getVelocity()+60)
-                    self._velocity=tempVel
-                    self._x=self._x-60
-                    self._delay=3
-                    self.getNextNeighbour().setDelay(3)
+                    self.getNextNeighbour().setPosition(self._neighbourX+120)
+                    self._velocity=tempVel/5
+                    self._x=self._x-10
+                    self._delay=10
+                    self.getNextNeighbour().setDelay(5)
             if self._delay>0:
                 self._delay-=1
             elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
