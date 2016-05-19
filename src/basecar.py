@@ -26,7 +26,7 @@ class BaseCar:
         self._lane = int(1)
         self._neighbourX=float()
         self._neighbourV=float()
-
+        self._delay=0
     def setPosition(self,newpos):
         self._x=newpos
     
