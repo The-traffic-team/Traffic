@@ -5,6 +5,7 @@ class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
     
     def __init__(self,x=0,velocity=1,brakeDistance=-1,acceleration=15,maxAcceleration=0,maxDeceleration=0,maxSpeed=200): 
+	BaseCar.__init__(self)
         self._x=x  
         self._velocity=velocity
         self._acceleration=acceleration
