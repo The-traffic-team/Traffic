@@ -12,7 +12,7 @@ class BetterCar(BaseCar):
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
         self._driverMood = 0.01*np.random.choice(range(40,120,5))        
-        self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
+        self._color=np.random.choice('r,g,b,c'.split(','))
         self._delay=0
         self._collide=collide
         self._lane=np.random.randint(1,high=self._lanes+1)
@@ -49,12 +49,13 @@ class BetterCar(BaseCar):
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
         else:
-            if((self._velocity+self._acceleration*time)<=self._driverMax):
-                self._velocity+=self._acceleration*time
-            isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
-            self._x+=self._velocity*time
-            if isEndRoad:
-                self._x=self._x%self.ROADLENGTH
+            if not self.changeLane(self.ROADLENGTH,False):
+                if((self._velocity+self._acceleration*time)<=self._driverMax):
+                    self._velocity+=self._acceleration*time
+                isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
+                self._x+=self._velocity*time
+                if isEndRoad:
+                    self._x=self._x%self.ROADLENGTH
                     
     def collision(self,tempDist,time):       
         if (tempDist+self._velocity*time<30):
@@ -92,7 +93,7 @@ class BetterCar(BaseCar):
             elif (indexOfCurrentCar < len(laneChangedTo) - 1):
                 distanceNextCar = laneChangedTo[indexOfCurrentCar + 1].getPosition() - self.getPosition()
                 distancePreviousCar = self.getPosition() + self.ROADLENGTH - laneChangedTo[-1].getPosition()
-            # Lane is empty
+            # Lane is empty, should never occur since laneChangeTo should be false
             else:
                 distanceNextCar = self.ROADLENGTH
                 distancePreviousCar = self.ROADLENGTH
@@ -106,7 +107,11 @@ class BetterCar(BaseCar):
 	    # Change lane to below also if lots of empty space in lane below 
 	    elif (not above and self.ROADLENGTH * 0.25 < distanceNextCar and self.ROADLENGTH * 0.15 < distancePreviousCar):
 		makeChange = True 
-		self._lane -=1
+		self._lane -= 1
+        # Change if lower lane is completly empty
+        if (not laneChangedTo and not above and self._lane > 1):
+            makeChange = True
+            self._lane -= 1
         if(makeChange):
             self._trafficManager.sortCars()
             

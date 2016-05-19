@@ -42,7 +42,6 @@ class Plotter:
         y=[]
 	color = []
         for car in Plotter.instance()._trafficManager.cars:
-            print car.getPosition()
             x.append(car.getPosition())
             y.append((car.getLane() * self._laneWidth) - (self._laneWidth/2.))
 	    color.append(pg.mkBrush(car.getColor()))          

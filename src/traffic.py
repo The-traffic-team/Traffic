@@ -16,15 +16,19 @@ class TrafficManager:
         self.cars = []        
         self.roadLength = 0        
         self._lanes = 4
+	self._iterations = 1500
 
-    def initialize(self,roadLength, positions, velocities):    
+    def initialize(self,roadLength, positions, velocities,typeOfCar):    
         print "TrafficManager(): initializing traffic simulation"    
         self.roadLength = roadLength
         basecar.BaseCar.ROADLENGTH = self.roadLength
         carTuples = []
         for i in range(len(positions)):         
-            carTuples.append((positions[i], velocities[i]))  
+            carTuples.append((positions[i], velocities[i],typeOfCar[i]))  
         self.initCars(carTuples)
+
+    def getIterations(self):
+        return self._iterations
 
     def sortCars(self):         
 	lanes = self.getLanes()
@@ -53,7 +57,10 @@ class TrafficManager:
     def initCars(self, attributes):       
         attributes.sort()
         for attribute in attributes:
-            self.cars.append(BetterCar(attribute[0], velocity = attribute[1], trafficManager=self))
+            if(attribute[2] == 's'):
+                self.cars.append(SimpleCar(attribute[0], velocity = attribute[1], trafficManager=self))
+            else:
+                self.cars.append(BetterCar(attribute[0], velocity = attribute[1], trafficManager=self))               
         self.sortCars()
 
     
@@ -73,17 +80,18 @@ class TrafficManager:
 if __name__ == '__main__':
 
     roadLength = 5000
-    positions = [0,200, 400, 600, 800, 1000, 1200, 1400, 1600, 2000] 
-    velocities = [10,10,30,10,10,40,10,10,20,10]
+    positions =  [0  , 200 , 400, 600, 800, 1000, 1200, 1400, 1600, 2000] 
+    velocities = [10 , 10  , 30 , 10 , 10 , 40  ,   10,   10,   20,   10]
+    typeOfCar  = ['s', 'b' ,'s' ,'b' ,'s' ,'b'  ,'b'  , 's' ,'b'  , 's' ]
      
     trafficControl = TrafficManager.instance()
-    trafficControl.initialize(roadLength, positions, velocities)
+    trafficControl.initialize(roadLength, positions, velocities, typeOfCar)
     plotter = Plotter.instance()
     plotter.initPlot(trafficControl)
     logger = Logger.instance()
     logger.init(trafficControl)
     
-    for step in range(5000):
+    for step in range(trafficControl.getIterations()):
 
         trafficControl.updateCars()
         plotter.updatePlot()

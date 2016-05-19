@@ -4,14 +4,14 @@ from basecar import BaseCar
 class SimpleCar(BaseCar):
     """ A simple car class, inherits from BaseCar"""
     
-    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=20,maxAcceleration=0,maxDeceleration=0,maxSpeed=200,collide=True): 
-	BaseCar.__init__(self)
+    def __init__(self,x=0,velocity=1,brakeDistance=10,acceleration=20,maxAcceleration=0,maxDeceleration=0,maxSpeed=200,collide=True, trafficManager = None): 
+	BaseCar.__init__(self, trafficManager = trafficManager)
         self._x=x  
         self._velocity=velocity
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
         self._driverMood = 0.01*np.random.choice(range(60,120,5))        
-        self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
+        self._color=np.random.choice('m,y,k'.split(','))
         self._delay=0
         self._collide=collide
         self._acceleration=acceleration/self._driverMood
