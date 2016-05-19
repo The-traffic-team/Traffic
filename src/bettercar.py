@@ -30,14 +30,15 @@ class BetterCar(BaseCar):
             if self._delay>0:
                 self._delay-=1
             elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
-                if((self._velocity+self._acceleration*time)<=self._driverMax):
-                    self._velocity+=self._acceleration*time
+                if not self.changeLane(tempDist,False):
+                    if((self._velocity+self._acceleration*time)<=self._driverMax):
+                        self._velocity+=self._acceleration*time
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 self._x+=self._velocity*time
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
             else:                                      #deccelerate if within brake distance
-                if not self.changeLane():
+                if not self.changeLane(tempDist):
                     if (self._velocity-self._acceleration*time>=0):
                         self._velocity-=self._acceleration*time
                         self._x+=self._velocity*time
@@ -65,11 +66,44 @@ class BetterCar(BaseCar):
             self._delay=10
             self.getNextNeighbour().setDelay(3)
 
-    def changeLane(self):
-        return False
-        if (self._lane < self._trafficManager._lanes):
-            lane = self._trafficManager.getLanes()
+    def changeLane(self,tempDist,above = True):
+        makeChange = False
+        laneChangedTo = None
+        if(above and self._lane < self._trafficManager._lanes):
+            # self._lane means lane+1
+            laneChangedTo = self._trafficManager.getLanes()[self._lane]
+        if(not above and self._lane > 1):
+            # self._lane means lane+1
+            laneChangedTo = self._trafficManager.getLanes()[self._lane-2]
+        if(laneChangedTo): 
+            # Add us to the lane and check if enough distance is kept after sorting.
+            laneChangedTo.append(self)
+            laneChangedTo.sort(cmp = lambda x, y: cmp(x.getPosition(), y.getPosition()))
+            indexOfCurrentCar = laneChangedTo.index(self)
+            distanceNextCar = 0
+            distancePreviousCar = 0
+            if(indexOfCurrentCar > 0 and (indexOfCurrentCar < len(laneChangedTo) - 1)):
+                distanceNextCar = laneChangedTo[indexOfCurrentCar + 1].getPosition() - self.getPosition()
+                distancePreviousCar = self.getPosition() - laneChangedTo[indexOfCurrentCar - 1].getPosition()
+                
+            elif (indexOfCurrentCar > 0):
+                distanceNextCar = self.ROADLENGTH - self.getPosition() + laneChangedTo[0].getPosition()
+                distancePreviousCar = self.getPosition() - laneChangedTo[indexOfCurrentCar - 1].getPosition()
+            elif (indexOfCurrentCar < len(laneChangedTo) - 1):
+                distanceNextCar = laneChangedTo[indexOfCurrentCar + 1].getPosition() - self.getPosition()
+                distancePreviousCar = self.getPosition() + self.ROADLENGTH - laneChangedTo[-1].getPosition()
+            # Lane is empty
+            else:
+                distanceNextCar = self.ROADLENGTH
+                distancePreviousCar = self.ROADLENGTH
+            # Change lane to lane above if tempDist is less than distanceNextCar
+            if(tempDist < distanceNextCar and tempDist < distancePreviousCar):
+                makeChange = True
+                if(above):          
+                    self._lane += 1
+                else:
+                    self._lane -= 1
+        if(makeChange):
+            self._trafficManager.sortCars()
             
-            
-        else:
-            return False
+        return makeChange
