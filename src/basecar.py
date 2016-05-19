@@ -13,7 +13,7 @@ class BaseCar:
     """ Base class for cars"""
     ROADLENGTH=200
 
-    def __init__(self,x=0,velocity=0,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=0, lane = int(1), lanes = int(4)):
+    def __init__(self,x=0,velocity=0,brakeDistance=-1,acceleration=0,maxAcceleration=0,maxDeceleration=0,maxSpeed=0, lane = int(1), lanes = int(4),collide=False):
         self._x = x
         self._velocity=velocity
         self._acceleration=maxAcceleration
@@ -30,6 +30,7 @@ class BaseCar:
         self._neighbourX=float()
         self._neighbourV=float()
         self._delay=0
+        self._collide=collide
     def setPosition(self,newpos):
         self._x=newpos
     

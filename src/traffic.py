@@ -59,7 +59,7 @@ class TrafficManager:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            car.updatePosition(0.1,True)        
+            car.updatePosition(0.1)        
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"

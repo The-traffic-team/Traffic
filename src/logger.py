@@ -52,6 +52,8 @@ class Logger:
             pltNumber = 0
             for variable in variables:       
                 self._loggerlist[car][variable].plot(ax=axes[pltNumber])
+                if variable == "lane":
+                    axes[pltNumber].set_ylim(0,5)
                 axes[pltNumber].set_ylabel(variable)
                 pltNumber += 1
         plt.show()     
