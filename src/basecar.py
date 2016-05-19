@@ -30,6 +30,7 @@ class BaseCar:
         self._neighbourX=float()
         self._neighbourV=float()
         self._delay=0
+	self._color='b'
         self._collide=collide
 	self._trafficManager = trafficManager
 
@@ -57,6 +58,9 @@ class BaseCar:
 
     def getLane(self):
 	return self._lane    
+
+    def getColor(self):
+ 	return self._color
 
     def getNextNeighbour(self):
 	if self._nextNeighbour[self._lane -1] :

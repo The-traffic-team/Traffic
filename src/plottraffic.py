@@ -40,12 +40,14 @@ class Plotter:
         # Lists for positions of cars
         x=[]
         y=[]
+	color = []
         for car in Plotter.instance()._trafficManager.cars:
             print car.getPosition()
             x.append(car.getPosition())
             y.append((car.getLane() * self._laneWidth) - (self._laneWidth/2.))
-            
-        self._pw.plot(x, y, clear=True, pen=None, symbol='o', symbolSize=20)
+	    color.append(pg.mkBrush(car.getColor()))          
+  
+        self._pw.plot(x, y, clear=True, pen=None, symbol='o', symbolSize=20, symbolBrush = color)
         self._pw.addItem(self._backgroundImage)
         self._backgroundImage.setZValue(-100)  # make sure image is behind other data
         self._backgroundImage.setRect(pg.QtCore.QRectF(0, 0, self._roadLength, self._roadWidth))

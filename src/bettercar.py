@@ -103,6 +103,10 @@ class BetterCar(BaseCar):
                     self._lane += 1
                 else:
                     self._lane -= 1
+	    # Change lane to below also if lots of empty space in lane below 
+	    elif (not above and self.ROADLENGTH * 0.25 < distanceNextCar and self.ROADLENGTH * 0.15 < distancePreviousCar):
+		makeChange = True 
+		self._lane -=1
         if(makeChange):
             self._trafficManager.sortCars()
             
