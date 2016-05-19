@@ -4,7 +4,10 @@
 # In[5]:
 
 import pandas as pd
-import matplotlib.pyplot as plt
+from PyQt4 import QtGui, QtCore
+import matplotlib as mp
+mp.use("Qt4Agg")
+
 from singleton import Singleton
 
 
@@ -38,13 +41,13 @@ class Logger:
         """plots summary of current statistics"""
         variables = self._loggerlist[0].columns.values
         nCars = len(self._trafficManager.cars);
-        fig, axes = plt.subplots(nrows = len(variables))
+        fig, axes = mp.pyplot.subplots(nrows = len(variables))
         for car in xrange(0,nCars):
             pltNumber = 0
             for variable in variables:       
                 self._loggerlist[car][variable].plot(ax=axes[pltNumber])
                 pltNumber += 1
-        plt.show()     
+        mp.pyplot.show()     
         
 
 
