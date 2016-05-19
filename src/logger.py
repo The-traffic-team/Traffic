@@ -6,7 +6,8 @@
 import pandas as pd
 from PyQt4 import QtGui, QtCore
 import matplotlib as mp
-mp.use("Qt4Agg")
+if mp.get_backend() == 'Qt5Agg':
+    mp.use("Qt4Agg")
 
 from singleton import Singleton
 
@@ -30,7 +31,7 @@ class Logger:
         """ Goes through list of cars and adds values to data frame"""
         list = self._trafficManager.cars
         for i in xrange(0,len(list)):
-            self._loggerlist[i] = self._loggerlist[i].append({'x': list[i].getPosition(), 'lane': 1}, ignore_index = True)
+            self._loggerlist[i] = self._loggerlist[i].append({'x': list[i].getPosition(), 'lane': list[i].GetLane()}, ignore_index = True)
             
     def getResult(self, numberInList):
         """ Returns result for each car object using the number of the car in the list"""
