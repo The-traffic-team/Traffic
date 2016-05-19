@@ -72,6 +72,7 @@ if __name__ == '__main__':
     roadLength = 5000
     positions = [0,100, 200, 300, 400, 500, 600, 700, 800, 900] 
     velocities = [10,10,10,10,10,10,10,10,10,10]
+
      
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities)
@@ -80,6 +81,7 @@ if __name__ == '__main__':
     logger = Logger.instance()
     logger.init(trafficControl)
     
+
     for step in range(500):
 
         trafficControl.updateCars()
