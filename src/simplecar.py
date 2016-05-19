@@ -14,33 +14,24 @@ class SimpleCar(BaseCar):
         self._color=np.random.choice('r,g,b,c,m,y,k'.split(','))
 #        print self._driverMood
     def updatePosition(self,time):
-        if(0):
-            if ((self._x+self._velocity*time)>=self.ROADLENGTH):
-                self._x+=self._velocity*time
-                self._x=self._x%self.ROADLENGTH
-            else:
-                self._x+=self._velocity*time
-                self._velocity+=self._acceleration*time
-        self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        
+        self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
         if(1):
-            tempDist=self._neighbourX-self._x
+            tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
             if (tempDist<0):
-                tempDist=self.ROADLENGTH+tempDist
- #           print 'tempdist ',tempDist    
-  #          print 'brakedist ',self._brakeDistance    
-            if (tempDist>self._brakeDistance):
+                tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
+            if (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
                 if((self._velocity+self._acceleration*time)<=self._driverMax):
                     self._velocity+=self._acceleration*time
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 self._x+=self._velocity*time
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
-            else:
+            else:                                      #deccelerate if within brake distance
                 if (self._velocity-self._acceleration*time>=0):
                     self._velocity-=self._acceleration*time
                     self._x+=self._velocity*time
                     isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
-                else:
+                else:                                   #safeguard negative velocities
                     self._velocity=0
                     isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 if isEndRoad:
