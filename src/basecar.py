@@ -55,15 +55,22 @@ class BaseCar:
 	return self._lane    
 
     def getNextNeighbour(self):
-	return self._nextNeighbour[self._lane -1]
+	if self._nextNeighbour[self._lane -1] :
+		return self._nextNeighbour[self._lane -1]
+	else:
+		return None
 
     def setNeighbour(self, nextNeighbour, lane = 1):
         self._nextNeighbour[self._lane - 1]=nextNeighbour
 
     def saveNeighbourStatus(self):
-        self._neighbourX=self._nextNeighbour[self._lane - 1].getPosition()
-        self._neighbourV=self._nextNeighbour[self._lane - 1].getVelocity()
-    
+	if self._nextNeighbour[self._lane -1]:
+		print self._nextNeighbour[self._lane -1]
+	        self._neighbourX=self._nextNeighbour[self._lane - 1].getPosition()
+        	self._neighbourV=self._nextNeighbour[self._lane - 1].getVelocity()
+	else:
+		pass    
+
     def updatePosition(self):
         pass
 

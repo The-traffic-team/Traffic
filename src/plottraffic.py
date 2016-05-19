@@ -43,7 +43,7 @@ class Plotter:
         for car in Plotter.instance()._trafficManager.cars:
             print car.getPosition()
             x.append(car.getPosition())
-            y.append(self._laneWidth - (self._laneWidth/2.))
+            y.append((car.getLane() * self._laneWidth) - (self._laneWidth/2.))
             
         self._pw.plot(x, y, clear=True, pen=None, symbol='t', symbolSize=20)
         self._pw.addItem(self._backgroundImage)
