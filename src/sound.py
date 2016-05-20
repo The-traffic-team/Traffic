@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import pygame
-
 class SoundWorld:
     def __init__(self):
         self._mixer=pygame.mixer
@@ -23,4 +22,5 @@ class SoundWorld:
     def ambulSiren(self):
         self._mixer.music.load("../ambulance.wav")
         self._mixer.music.play(3)
+
 
