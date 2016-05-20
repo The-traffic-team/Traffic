@@ -22,10 +22,14 @@ class TrafficManager:
         self._lanes = 4
 	self._iterations = 1500
 	self._closedLane =  None
+    
+	
 
-    def initialize(self,roadLength, positions, velocities,typeOfCar):    
+    def initialize(self,roadLength, positions, velocities,typeOfCar, iterations = 500, lanes = 4):    
         print "TrafficManager(): initializing traffic simulation"    
         self.roadLength = roadLength
+        self._lanes = lanes          
+        self._iterations = iterations
         basecar.BaseCar.ROADLENGTH = self.roadLength
         carTuples = []
         for i in range(len(positions)):         
@@ -100,17 +104,20 @@ if __name__ == '__main__':
     parser.add_argument( '-l', '--nLanes', help="total number of lanes available", default=4)
     parser.add_argument( '-L', '--roadLength', help="roadLength", default = 5000)
     parser.add_argument( '-s', '--percentSimple', help="percentage of simple cars", default = 0.2)
+    parser.add_argument( '-i', '--iterations', help="iterations to run", default = 500)
     args = parser.parse_args()
     
     
     
 
-
+    print float(args.percentSimple)
     roadLength = int(args.roadLength)
     nCars = int(args.nCars)
     nLanes = int(args.nLanes)
-    nSimple = int(nCars * float(args.percentSimple))
-    if (roadLength <= 0)  or (nCars <= 0) or (nLanes <= 0) or (nLanes > 4) or (nSimple < 0) or (nSimple > nCars):
+    nSimple =  float(args.percentSimple)
+    nSimple *= nCars
+    nIter = int(args.iterations)
+    if (roadLength <= 0)  or (nCars <= 0) or (nLanes <= 0) or (nLanes > 4) or (nSimple < 0) or (nSimple > nCars) or (nIter < 0):
         print "roadLength, number of Car, and number of lanes must all be more than 0!"
         print "percent simple cars must be between 0 and 1, number of lanes cannot exceed 4"
         exit(1)
@@ -126,12 +133,12 @@ if __name__ == '__main__':
     
     positions = range(0, roadLength, roadLength/nCars)
     velocities = [ np.random.randint(0,50) for i in range(0,nCars)]
-    randLow = -1 * int(100 * args.percentSimple)
-    randHigh = int(100 * (1 - args.percentSimple))
+    randLow = -1 * int(100 * float(args.percentSimple))
+    randHigh = int(100 * (1 -float( args.percentSimple)))
     typeOfCar = [ typeID(np.random.randint(randLow, randHigh)) for i in range(0, nCars)] 
  
     trafficControl = TrafficManager.instance()
-    trafficControl.initialize(roadLength, positions, velocities, typeOfCar)
+    trafficControl.initialize(roadLength, positions, velocities, typeOfCar, lanes=nLanes, iterations = nIter )
     plotter = Plotter.instance()
     plotter.initPlot(trafficControl)
     logger = Logger.instance()
