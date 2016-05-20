@@ -36,6 +36,7 @@ class BaseCar:
 	self._carType = 'basecar'
 	self._collisionHappened = 0
         self._driverMax=100
+        self._patience=10
 
     def setPosition(self,newpos):
         self._x=newpos
@@ -49,8 +50,11 @@ class BaseCar:
     def setDelay(self,delay):
         self._delay=delay
         
+    def setDriverMax(self,newDmax):
+        self._driverMax=newDmax
+
     def getDriverMax(self):
-        self._driverMax
+        return self._driverMax
         
     def getPosition(self):
         return self._x
