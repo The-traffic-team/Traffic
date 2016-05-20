@@ -105,7 +105,8 @@ if __name__ == '__main__':
             soundWorld.crash()
         plotter.updatePlot()
         logger.addEntries()
-
+	# after each step make sure that cars have  proper neighbour, will cost time, but increases accurancy
+	trafficControl.sortCars()
 
        
 
