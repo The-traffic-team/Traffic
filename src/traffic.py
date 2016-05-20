@@ -8,6 +8,7 @@ from logger import Logger
 from simplecar import SimpleCar
 from fastercar import FasterCar
 from bettercar import BetterCar
+from sound import SoundWorld
 
 @Singleton
 class TrafficManager:
@@ -65,11 +66,15 @@ class TrafficManager:
 
     
     def updateCars(self):
+        hasCollision=False
         for car in self.cars:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            car.updatePosition(0.1)        
+            didcollide=car.updatePosition(0.1)        
+            if didcollide:
+                hasCollision=True
+        return hasCollision    
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"
@@ -90,10 +95,13 @@ if __name__ == '__main__':
     plotter.initPlot(trafficControl)
     logger = Logger.instance()
     logger.init(trafficControl)
+    soundWorld.ambientSound()
     
     for step in range(trafficControl.getIterations()):
-
-        trafficControl.updateCars()
+        isCollision=False
+        isCollision=trafficControl.updateCars()
+        if isCollision:
+            soundWorld.crash()
         plotter.updatePlot()
         logger.addEntries()
 
