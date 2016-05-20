@@ -10,7 +10,7 @@ class SimpleCar(BaseCar):
         self._velocity=velocity
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.007*np.random.choice(range(60,120,5))        
+        self._driverMood = 0.004*np.random.choice(range(60,120,5))        
         self._color=np.random.choice('m,y,k'.split(','))
         self._delay=0
         self._collide=collide
@@ -49,14 +49,16 @@ class SimpleCar(BaseCar):
       
     def collision(self,tempDist,time):
         hasCollision=False
-        if (tempDist+(self._velocity+self._acceleration*time)*time<25):
+        if (tempDist-(self._velocity+self._acceleration*time)*time<35):
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
-            self.getNextNeighbour().setPosition(min((self._neighbourX+15),(self.getNextNeighbour().getNextNeighbour().getPosition())-10))
-            self._velocity=tempVel/3
-            self._acceleration=self._acceleration/2
+            self.getNextNeighbour().setPosition(min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18))
+            self._velocity=tempVel/2
+            self._acceleration=self._acceleration/1.5
+            self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.33)
             self._x=self._x
-            self._delay=5
+            self._delay=4
             self.getNextNeighbour().setDelay(1)
+            
         return hasCollision     

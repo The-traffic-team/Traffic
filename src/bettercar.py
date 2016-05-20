@@ -60,15 +60,16 @@ class BetterCar(BaseCar):
             
     def collision(self,tempDist,time):  
         hasCollision=False
-        if (tempDist+(self._velocity+self._acceleration*time)*time<25):
+        if (tempDist-(self._velocity+self._acceleration*time)*time<35):
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
-            self.getNextNeighbour().setPosition(min((self._neighbourX+15),(self.getNextNeighbour().getNextNeighbour().getPosition())-10))
-            self._velocity=tempVel/3
-            self._acceleration=self._acceleration/2
+            self.getNextNeighbour().setPosition(min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18))
+            self._velocity=tempVel/2
+            self._acceleration=self._acceleration/(1.5)
+            self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.33)
             self._x=self._x
-            self._delay=5
+            self._delay=4
             self.getNextNeighbour().setDelay(1)
         return hasCollision
 
