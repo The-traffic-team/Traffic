@@ -2,7 +2,7 @@
 
 import pygame
 
-class SoundWorld(object):
+class SoundWorld:
     def __init__(self):
         self._mixer=pygame.mixer
         self._mixer.init()

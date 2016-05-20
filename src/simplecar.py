@@ -16,6 +16,7 @@ class SimpleCar(BaseCar):
         self._collide=collide
         self._acceleration=acceleration/self._driverMood
         self._inacc=self._acceleration
+	self._carType='s'
 
     def updatePosition(self,time):
         isCollision=False

@@ -16,7 +16,7 @@ class BetterCar(BaseCar):
         self._delay=0
         self._collide=collide
         self._lane=np.random.randint(1,high=self._lanes+1)
-
+	self._carType='b'
         
     def updatePosition(self,time):
         isCollision=False        
