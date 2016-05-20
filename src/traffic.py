@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 
 from singleton import Singleton
 from pyqtgraph.Qt import QtGui, QtCore
@@ -80,15 +81,49 @@ class TrafficManager:
         print "TrafficManager(): finalizing traffic simulation"
 
 
-
+def typeID( value ):
+    if value > 0:
+        return 'b'
+    else:
+        return 's'
 
 if __name__ == '__main__':
+    
+    parser= argparse.ArgumentParser(description="Traffic simulator with configurable options")
+    parser.add_argument( '-n', '--nCars', help="total number of cars to add", default = 20)
+    parser.add_argument( '-l', '--nLanes', help="total number of lanes available", default=4)
+    parser.add_argument( '-L', '--roadLength', help="roadLength", default = 5000)
+    parser.add_argument( '-s', '--percentSimple', help="percentage of simple cars", default = 0.2)
+    args = parser.parse_args()
+    
+    
+    
 
-    roadLength = 5000
+
+    roadLength = int(args.roadLength)
+    nCars = int(args.nCars)
+    nLanes = int(args.nLanes)
+    nSimple = int(nCars * float(args.percentSimple))
+    if (roadLength <= 0)  or (nCars <= 0) or (nLanes <= 0) or (nLanes > 4) or (nSimple < 0) or (nSimple > nCars):
+        print "roadLength, number of Car, and number of lanes must all be more than 0!"
+        print "percent simple cars must be between 0 and 1, number of lanes cannot exceed 4"
+        exit(1)
+
+    elif (roadLength*nLanes)/nCars < 10:
+        print "Too many Cars for this size Road!"
+        exit(2)
+ 
+
     positions =  [0  , 100 , 200 , 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 2000] 
     velocities = [10 , 50  , 10  , 35 , 30 , 25 , 10 , 15 , 30 , 45 , 40  , 25  ,  10 ,  20 , 10  , 30  ,  20 ,  35 ,   10]
     typeOfCar  = ['s', 'b' , 'b' , 'b','s' , 'b','b' , 's','s' , 'b', 'b' , 'b' , 'b' , 'b' , 's' , 'b' , 'b' , 'b' , 's' ]
-     
+    
+    positions = range(0, roadLength, roadLength/nCars)
+    velocities = [ np.random.randint(0,50) for i in range(0,nCars)]
+    randLow = -1 * int(100 * args.percentSimple)
+    randHigh = int(100 * (1 - args.percentSimple))
+    typeOfCar = [ typeID(np.random.randint(randLow, randHigh)) for i in range(0, nCars)] 
+ 
     trafficControl = TrafficManager.instance()
     trafficControl.initialize(roadLength, positions, velocities, typeOfCar)
     plotter = Plotter.instance()
