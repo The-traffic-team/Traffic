@@ -148,19 +148,35 @@ if __name__ == '__main__':
 
     # decide randomly when ambulance car arrives
     arrivalOfAmbulance = int(trafficControl.getIterations() * np.random.rand() * 0.5 + 0.1 * trafficControl.getIterations())
-    
+    delay=0
+    playamb=False
+    wait=100
     for step in range(trafficControl.getIterations()):
         flags=trafficControl.updateCars()
         isCollision=flags[0]
         honkFlag=flags[1]        
-        if isCollision:
-            soundWorld.crash()
-        elif honkFlag:
-            soundWorld.honk()
 
         if (step == arrivalOfAmbulance):
             AmbulanceCar(0,25, trafficManager=trafficControl)
+            soundWorld.ambulSiren()
+            delay=40
+            playamb=True
+        
+        if playamb==True:
+            wait-=1
+        
+        if wait==0:
+            playamb=False
+            soundWorld.ambientSound()
+            wait+=1
+        if delay==0:    
+            if isCollision:
+                soundWorld.crash()
+            elif honkFlag:
+                soundWorld.honk()
 
+        if delay!=0:
+            delay-=1
             
         plotter.updatePlot()
         logger.addEntries()

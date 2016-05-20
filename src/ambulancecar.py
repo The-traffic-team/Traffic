@@ -10,7 +10,7 @@ class AmbulanceCar(BaseCar):
         self._x=np.random.rand() * self.ROADLENGTH / 2.
         self._velocity=35
         self._maxSpeed=maxSpeed
-        self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
+        self._driverMax=maxSpeed
         self._driverMood = 0.004*np.random.choice(range(60,120,5))
         # Ambulance gets red color
         self._color='r'
