@@ -30,7 +30,7 @@ class BetterCar(BaseCar):
                 isCollision=self.collision(tempDist,time)
             if self._delay>0:
                 self._delay-=1
-            elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
+            elif (tempDist-(self._velocity+self._acceleration*time)*time>self._brakeDistance):                             #accelerate if further than brake distance
                 if not self.changeLane(tempDist,False):
                     if((self._velocity+self._acceleration*time)<=self._driverMax):
                         self._velocity+=self._acceleration*time
@@ -72,7 +72,7 @@ class BetterCar(BaseCar):
             self._acceleration=self._acceleration/(1.5)
             self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.33)
             self._x=self._x
-            self._delay=4
+            self._delay=3
             self.getNextNeighbour().setDelay(1)
         return hasCollision
 

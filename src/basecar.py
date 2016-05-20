@@ -35,6 +35,7 @@ class BaseCar:
 	self._trafficManager = trafficManager
 	self._carType = 'basecar'
 	self._collisionHappened = 0
+        self._driverMax=100
 
     def setPosition(self,newpos):
         self._x=newpos
@@ -47,6 +48,9 @@ class BaseCar:
 
     def setDelay(self,delay):
         self._delay=delay
+        
+    def getDriverMax(self):
+        self._driverMax
         
     def getPosition(self):
         return self._x
