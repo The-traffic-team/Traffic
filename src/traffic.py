@@ -65,17 +65,20 @@ class TrafficManager:
                 self.cars.append(BetterCar(attribute[0], velocity = attribute[1], trafficManager=self))               
         self.sortCars()
 
-    
     def updateCars(self):
         hasCollision=False
+        honkFlag=False
         for car in self.cars:
             car.saveNeighbourStatus()
         
         for car in self.cars:
-            didcollide=car.updatePosition(0.1)        
-            if didcollide:
+            flags=car.updatePosition(0.1)
+            if flags[0]:
                 hasCollision=True
-        return hasCollision    
+            if flags[1]:
+                honkFlag=True
+        return [hasCollision,honkFlag]    
+
 
     def finalize(self):
         print "TrafficManager(): finalizing traffic simulation"
@@ -134,10 +137,13 @@ if __name__ == '__main__':
     soundWorld.ambientSound()
     
     for step in range(trafficControl.getIterations()):
-        isCollision=False
-        isCollision=trafficControl.updateCars()
+        flags=trafficControl.updateCars()
+        isCollision=flags[0]
+        honkFlag=flags[1]        
         if isCollision:
             soundWorld.crash()
+        elif honkFlag:
+            soundWorld.honk()
         plotter.updatePlot()
         logger.addEntries()
 	# after each step make sure that cars have  proper neighbour, will cost time, but increases accurancy
