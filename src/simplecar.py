@@ -20,7 +20,9 @@ class SimpleCar(BaseCar):
 	self._collisionHappened = 0
 
     def updatePosition(self,time):
+        flags=[False,False]
         isCollision=False
+        honkFlag=False
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._inacc)        #get current minimum breaking distance
         tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
         if (tempDist<0):
@@ -30,23 +32,33 @@ class SimpleCar(BaseCar):
         if self._delay>0:
             self._delay-=1
         elif (tempDist-(self._velocity+self._acceleration*time)*time>self._brakeDistance):                             #accelerate if further than brake distance
+            self._patience=10
             if((self._velocity+self._acceleration*time)<=self._driverMax):
                 self._velocity+=self._acceleration*time
             isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
             self._x+=self._velocity*time
             if isEndRoad:
                 self._x=self._x%self.ROADLENGTH
+                
         else:                                      #deccelerate if within brake distance
             if (self._velocity-self._acceleration*time>=0):
+                self._patience-=1
                 self._velocity-=self._acceleration*time
                 self._x+=self._velocity*time
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
             else:                                   #safeguard negative velocities
+                self._patience-=1
                 self._velocity=0
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
             if isEndRoad:
                 self._x=self._x%self.ROADLENGTH
-        return isCollision
+            if self._patience<=0:
+                honkFlag=True
+                if not isCollision:
+                     self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.05)
+        flags[0]=isCollision
+        flags[1]=honkFlag
+        return flags
       
     def collision(self,tempDist,time):
         hasCollision=False
@@ -56,7 +68,7 @@ class SimpleCar(BaseCar):
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
-            self.getNextNeighbour().setPosition(min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18))
+            self.getNextNeighbour().setPosition(max(self._neighbourX+1,min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18)))
             self._velocity=tempVel/2
             self._acceleration=0.8*self._acceleration
             self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.25)
