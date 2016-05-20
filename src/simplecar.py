@@ -10,7 +10,7 @@ class SimpleCar(BaseCar):
         self._velocity=velocity
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
-        self._driverMood = 0.001*np.random.choice(range(60,120,5))        
+        self._driverMood = 0.007*np.random.choice(range(60,120,5))        
         self._color=np.random.choice('m,y,k'.split(','))
         self._delay=0
         self._collide=collide
