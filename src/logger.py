@@ -24,7 +24,8 @@ class Logger:
         """ Give TrafficManager to have car list later"""
         self._trafficManager = TrafficManager
         list = self._trafficManager.cars
-        for i in xrange(0,len(list)):
+	# Create an additional place for the ambulance arriving later
+        for i in xrange(0,len(list) + 1):
             self._loggerlist.append(pd.DataFrame(columns =  ["x [m]", "velocity [m/s]", "lane", "acceleration [m/s2]"]))
 
 

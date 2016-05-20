@@ -9,6 +9,8 @@ from simplecar import SimpleCar
 from fastercar import FasterCar
 from bettercar import BetterCar
 from sound import SoundWorld
+import numpy as np
+from ambulancecar import AmbulanceCar
 
 @Singleton
 class TrafficManager:
@@ -18,6 +20,7 @@ class TrafficManager:
         self.roadLength = 0        
         self._lanes = 4
 	self._iterations = 1500
+	self._closedLane =  None
 
     def initialize(self,roadLength, positions, velocities,typeOfCar):    
         print "TrafficManager(): initializing traffic simulation"    
@@ -97,12 +100,17 @@ if __name__ == '__main__':
     logger.init(trafficControl)
     soundWorld =SoundWorld()
     soundWorld.ambientSound()
+
+    # decide randomly when ambulance car arrives
+    arrivalOfAmbulance = int(trafficControl.getIterations() * np.random.rand() * 0.5 + 0.1 * trafficControl.getIterations())
     
     for step in range(trafficControl.getIterations()):
         isCollision=False
         isCollision=trafficControl.updateCars()
         if isCollision:
             soundWorld.crash()
+        if (step == arrivalOfAmbulance):
+            AmbulanceCar(0,25, trafficManager=trafficControl)
         plotter.updatePlot()
         logger.addEntries()
 	# after each step make sure that cars have  proper neighbour, will cost time, but increases accurancy

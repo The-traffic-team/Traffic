@@ -50,6 +50,8 @@ class Plotter:
 		carSymbol.append('d')
 	    elif (car.getType() == 's'):
                 carSymbol.append('o')
+	    elif (car.getType() == 'a'):
+		carSymbol.append('+')	
 	    else:
 		carSymbol.append('t')  
 

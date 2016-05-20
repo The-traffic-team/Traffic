@@ -78,6 +78,11 @@ class BetterCar(BaseCar):
 
     def changeLane(self,tempDist,above = True):
         makeChange = False
+        # Close lane and switch of changing to it
+        if(above and self._lane + 1 == self._trafficManager._closedLane):
+            return makeChange
+        if(not above and self._lane - 1 == self._trafficManager._closedLane):
+            return makeChange
         laneChangedTo = None
         if(above and self._lane < self._trafficManager._lanes):
             # self._lane means lane+1
