@@ -34,6 +34,7 @@ class BaseCar:
         self._collide=collide
 	self._trafficManager = trafficManager
 	self._carType = 'basecar'
+	self._collisionHappened = 0
 
     def setPosition(self,newpos):
         self._x=newpos
@@ -60,7 +61,11 @@ class BaseCar:
 	return self._lane    
 
     def getColor(self):
- 	return self._color
+	if (self._collisionHappened > 0):
+		self._collisionHappened -= 1
+		return 'r'
+	else:
+ 		return self._color
 
     def getType(self):
 	return self._carType

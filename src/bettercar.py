@@ -12,11 +12,12 @@ class BetterCar(BaseCar):
         self._maxSpeed=maxSpeed
         self._driverMax=np.random.choice(range(self._maxSpeed/5,self._maxSpeed-10))
         self._driverMood = 0.01*np.random.choice(range(40,120,5))        
-        self._color=np.random.choice('r,g,b,c'.split(','))
+        self._color=np.random.choice('g,b,c'.split(','))
         self._delay=0
         self._collide=collide
         self._lane=np.random.randint(1,high=self._lanes+1)
 	self._carType='b'
+	self._collisionHappened = 0
         
     def updatePosition(self,time):
         isCollision=False        
@@ -61,6 +62,8 @@ class BetterCar(BaseCar):
     def collision(self,tempDist,time):  
         hasCollision=False
         if (tempDist-(self._velocity+self._acceleration*time)*time<35):
+	    # Change color to red for 3 time steps if collision happened
+	    self._collisionHappened = 10
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)

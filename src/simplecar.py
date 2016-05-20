@@ -17,6 +17,7 @@ class SimpleCar(BaseCar):
         self._acceleration=acceleration/self._driverMood
         self._inacc=self._acceleration
 	self._carType='s'
+	self._collisionHappened = 0
 
     def updatePosition(self,time):
         isCollision=False
@@ -50,6 +51,8 @@ class SimpleCar(BaseCar):
     def collision(self,tempDist,time):
         hasCollision=False
         if (tempDist-(self._velocity+self._acceleration*time)*time<35):
+	    # Set red color for car if collision happened
+	    self._collisionHappened = 10
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
