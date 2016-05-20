@@ -150,7 +150,7 @@ if __name__ == '__main__':
     arrivalOfAmbulance = int(trafficControl.getIterations() * np.random.rand() * 0.5 + 0.1 * trafficControl.getIterations())
     delay=0
     playamb=False
-    wait=40
+    wait=100
     for step in range(trafficControl.getIterations()):
         flags=trafficControl.updateCars()
         isCollision=flags[0]
@@ -159,7 +159,7 @@ if __name__ == '__main__':
         if (step == arrivalOfAmbulance):
             AmbulanceCar(0,25, trafficManager=trafficControl)
             soundWorld.ambulSiren()
-            delay=20
+            delay=40
             playamb=True
         
         if playamb==True:
