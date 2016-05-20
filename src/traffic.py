@@ -101,7 +101,7 @@ if __name__ == '__main__':
     
     parser= argparse.ArgumentParser(description="Traffic simulator with configurable options")
     parser.add_argument( '-n', '--nCars', help="total number of cars to add", default = 20)
-    parser.add_argument( '-l', '--nLanes', help="total number of lanes available", default=4)
+    #parser.add_argument( '-l', '--nLanes', help="total number of lanes available", default=4)
     parser.add_argument( '-L', '--roadLength', help="roadLength", default = 5000)
     parser.add_argument( '-s', '--percentSimple', help="percentage of simple cars", default = 0.2)
     parser.add_argument( '-i', '--iterations', help="iterations to run", default = 500)
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     print float(args.percentSimple)
     roadLength = int(args.roadLength)
     nCars = int(args.nCars)
-    nLanes = int(args.nLanes)
+    nLanes = 4
     nSimple =  float(args.percentSimple)
     nSimple *= nCars
     nIter = int(args.iterations)
