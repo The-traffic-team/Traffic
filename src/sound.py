@@ -20,5 +20,7 @@ class SoundWorld:
     def overtake(self):
         self._mixer.Sound.play(self._overtakeSound)
 
-
+    def ambulSiren(self):
+        self._mixer.music.load("../ambulance.wav")
+        self._mixer.music.play(3)
 
