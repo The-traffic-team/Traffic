@@ -95,6 +95,7 @@ if __name__ == '__main__':
     plotter.initPlot(trafficControl)
     logger = Logger.instance()
     logger.init(trafficControl)
+    soundWorld =SoundWorld()
     soundWorld.ambientSound()
     
     for step in range(trafficControl.getIterations()):
