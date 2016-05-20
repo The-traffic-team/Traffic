@@ -36,6 +36,7 @@ class BaseCar:
 	self._carType = 'basecar'
 	self._collisionHappened = 0
         self._driverMax=100
+        self._patience=10
 
     def setPosition(self,newpos):
         self._x=newpos

@@ -21,6 +21,7 @@ class BetterCar(BaseCar):
         
     def updatePosition(self,time):
         isCollision=False        
+        honkFlag=False
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
         if(self.getNextNeighbour()):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
@@ -31,6 +32,7 @@ class BetterCar(BaseCar):
             if self._delay>0:
                 self._delay-=1
             elif (tempDist-(self._velocity+self._acceleration*time)*time>self._brakeDistance):                             #accelerate if further than brake distance
+                self._patience=10
                 if not self.changeLane(tempDist,False):
                     if((self._velocity+self._acceleration*time)<=self._driverMax):
                         self._velocity+=self._acceleration*time
@@ -41,6 +43,7 @@ class BetterCar(BaseCar):
             else:                                      #deccelerate if within brake distance
                 if not self.changeLane(tempDist):
                     if (self._velocity-self._acceleration*time>=0):
+                        self._patience-=1
                         self._velocity-=self._acceleration*time
                         self._x+=self._velocity*time
                         
@@ -49,6 +52,11 @@ class BetterCar(BaseCar):
                 isEndRoad=((self._x+self._velocity*time)>=self.ROADLENGTH)
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
+                if self._patience<=0:
+                    honkFlag=True    
+                    if not isCollision:
+                         self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.05) 
+                         self.getNextNeighbour().setDriverMax(self.getNextNeighbour().getDriverMax()*1.05)
         else:
             if not self.changeLane(self.ROADLENGTH,False):
                 if((self._velocity+self._acceleration*time)<=self._driverMax):
@@ -57,7 +65,7 @@ class BetterCar(BaseCar):
                 self._x+=self._velocity*time
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
-        return isCollision
+        return [isCollision,honkFlag]
             
     def collision(self,tempDist,time):  
         hasCollision=False
@@ -67,7 +75,7 @@ class BetterCar(BaseCar):
             hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
-            self.getNextNeighbour().setPosition(min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18))
+            self.getNextNeighbour().setPosition(max(self._neighbourX+1,min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18)))
             self._velocity=tempVel/2
             self._acceleration=0.8*self._acceleration
             self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.25)
