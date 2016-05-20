@@ -49,8 +49,11 @@ class BaseCar:
     def setDelay(self,delay):
         self._delay=delay
         
+    def setDriverMax(self,newDmax):
+        self._driverMax=newDmax
+
     def getDriverMax(self):
-        self._driverMax
+        return self._driverMax
         
     def getPosition(self):
         return self._x

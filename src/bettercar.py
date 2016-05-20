@@ -69,8 +69,10 @@ class BetterCar(BaseCar):
             self.getNextNeighbour().setVelocity(self._velocity)
             self.getNextNeighbour().setPosition(min((self._neighbourX+18),(self.getNextNeighbour().getNextNeighbour().getPosition())-18))
             self._velocity=tempVel/2
-            self._acceleration=self._acceleration/(1.5)
-            self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.33)
+            self._acceleration=0.8*self._acceleration
+            self.getNextNeighbour().setAcceleration(self.getNextNeighbour().getAcceleration()*1.25)
+            self._driverMax=self._driverMax*0.8
+            self.getNextNeighbour().setDriverMax(self.getNextNeighbour().getDriverMax()*1.25)
             self._x=self._x
             self._delay=3
             self.getNextNeighbour().setDelay(1)
