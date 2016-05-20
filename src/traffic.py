@@ -17,7 +17,7 @@ class TrafficManager:
         self.cars = []        
         self.roadLength = 0        
         self._lanes = 4
-	self._iterations = 1500
+	self._iterations = 50
 
     def initialize(self,roadLength, positions, velocities,typeOfCar):    
         print "TrafficManager(): initializing traffic simulation"    
