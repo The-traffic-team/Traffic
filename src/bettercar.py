@@ -19,14 +19,14 @@ class BetterCar(BaseCar):
 
         
     def updatePosition(self,time):
-        
+        isCollision=False        
         self._brakeDistance = self._driverMood*self._velocity*self._velocity/(2* self._acceleration)        #get current minimum breaking distance
         if(self.getNextNeighbour()):
             tempDist=self._neighbourX-self._x  #temporary distance between driver and neighbour in front
             if (tempDist<0):
                 tempDist=self.ROADLENGTH+tempDist   #account for wrapping around
             if(self._collide):
-                self.collision(tempDist,time)
+                isCollision=self.collision(tempDist,time)
             if self._delay>0:
                 self._delay-=1
             elif (tempDist>self._brakeDistance):                             #accelerate if further than brake distance
@@ -56,16 +56,21 @@ class BetterCar(BaseCar):
                 self._x+=self._velocity*time
                 if isEndRoad:
                     self._x=self._x%self.ROADLENGTH
-                    
-    def collision(self,tempDist,time):       
-        if (tempDist+self._velocity*time<30):
+        return isCollision
+            
+    def collision(self,tempDist,time):  
+        hasCollision=False
+        if (tempDist+(self._velocity+self._acceleration*time)*time<25):
+            hasCollision=True
             tempVel=self._neighbourV
             self.getNextNeighbour().setVelocity(self._velocity)
-            self.getNextNeighbour().setPosition(self._neighbourX+30)
-            self._velocity=tempVel/5
-            self._x=self._x-10
-            self._delay=10
-            self.getNextNeighbour().setDelay(3)
+            self.getNextNeighbour().setPosition(min((self._neighbourX+15),(self.getNextNeighbour().getNextNeighbour().getPosition())-10))
+            self._velocity=tempVel/3
+            self._acceleration=self._acceleration/2
+            self._x=self._x
+            self._delay=5
+            self.getNextNeighbour().setDelay(1)
+        return hasCollision
 
     def changeLane(self,tempDist,above = True):
         makeChange = False
