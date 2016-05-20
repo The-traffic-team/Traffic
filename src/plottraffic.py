@@ -47,9 +47,11 @@ class Plotter:
             y.append((car.getLane() * self._laneWidth) - (self._laneWidth/2.))
 	    color.append(pg.mkBrush(car.getColor()))          
 	    if (car.getType() == 'b'):
-		carSymbol.append('t')
+		carSymbol.append('d')
+	    elif (car.getType() == 's'):
+                carSymbol.append('o')
 	    else:
-		carSymbol.append('o')  
+		carSymbol.append('t')  
 
         self._pw.plot(x, y, clear=True, pen=None, symbol=carSymbol, symbolSize=20, symbolBrush = color)
         self._pw.addItem(self._backgroundImage)
